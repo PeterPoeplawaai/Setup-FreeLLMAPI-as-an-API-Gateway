@@ -24,7 +24,7 @@ A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose on 
 
 ## Prerequisites
 
-- An active **OCI Always Free** compute instance (Ubuntu 22.04 or 24.04 LTS recommended).
+- An active **OCI Always Free** compute instance (Ubuntu 24.04 LTS recommended).
 - SSH access to the instance (e.g., private IP `10.0.0.10` over VPN/VCN, or via its assigned public IP).
 - At least one free-tier API key from a supported upstream provider (e.g., Google AI Studio, Groq, Cerebras, Mistral, OpenRouter).
 
