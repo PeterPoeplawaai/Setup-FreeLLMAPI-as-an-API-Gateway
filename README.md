@@ -1,5 +1,7 @@
 # Deploying FreeLLMAPI on Oracle Cloud Infrastructure (OCI) Free Tier
 
+![FreeLLMAPI Banner](FreeLLMAPI_plus_Open_WebUI.png)
+
 A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose on an **Oracle Cloud Infrastructure (OCI) Always Free** compute instance (`10.0.0.10`). Supports both `arm64` (Ampere A1) and `amd64` (Micro) shapes.
 
 > **Security Note:** FreeLLMAPI is single-user by design and protected only by your dashboard login and unified bearer token. Avoid exposing port `3001` directly to the public internet. Access the instance via SSH port forwarding, a private VPN (such as WireGuard or Tailscale), or a reverse proxy with TLS and authentication.
