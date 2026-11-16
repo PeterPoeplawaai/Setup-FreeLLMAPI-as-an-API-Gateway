@@ -2,7 +2,7 @@
 
 ![FreeLLMAPI Banner](FreeLLMAPI_plus_Open_WebUI.png)
 
-A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose on an **Oracle Cloud Infrastructure (OCI) Always Free** compute instance (`10.0.0.10`). Supports both `arm64` (Ampere A1) and `amd64` (Micro) shapes.
+A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose on an **Oracle Cloud Infrastructure (OCI) Always Free** compute instance. Supports both `arm64` (Ampere A1) and `amd64` (Micro) shapes.
 
 ## 🚀 Why FreeLLMAPI?
 
@@ -58,7 +58,7 @@ While both **FreeLLMAPI** and **OmniRoute** are local, OpenAI-compatible routing
 
 ## Prerequisites
 
-- An active **OCI Always Free** compute instance (Ubuntu 24.04 LTS recommended).
+- An active **OCI Always Free** compute instance (e.g., Ubuntu 24.04 LTS).
 - SSH access to the instance (e.g., private IP `10.0.0.10` over VPN/VCN, or via its assigned public IP).
 - At least one free-tier API key from a supported upstream provider (e.g., Google AI Studio, Groq, Cerebras, Mistral, OpenRouter).
 
