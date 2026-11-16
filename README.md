@@ -112,13 +112,19 @@ curl -fsSL https://raw.githubusercontent.com/tashfeenahmed/freellmapi/main/docke
 Generate a persistent 64-character hex `ENCRYPTION_KEY` (used for AES-256-GCM encryption of your upstream API keys at rest) and create the `.env` file:
 
 ```bash
-ENCRYPTION_KEY="$(openssl rand -hex 32)"
-cat <<EOF> .env
-ENCRYPTION_KEY=${ENCRYPTION_KEY}
+openssl rand -hex 32
+```
+> **Note:** Copy the output to use as the ENCRYPTION_KEY value in underneath .env file.
+
+```bash
+nano .env
+```
+
+```bash
+ENCRYPTION_KEY=<paste your unique key from above>
 PORT=3001
 # Use 127.0.0.1 for SSH tunnel / reverse proxy, or 0.0.0.0 for private VPN/VCN access
 HOST_BIND=127.0.0.1
-EOF
 ```
 
 > **Note:** If you chose **Option B** in Step 3 to reach the dashboard directly at `http://10.0.0.10:3001` over a private network, update `HOST_BIND=0.0.0.0` in your `.env` file.
@@ -145,7 +151,7 @@ docker compose logs -f freellmapi
 1. Open the FreeLLMAPI web dashboard in your browser:
    - **Via SSH tunnel:** `http://localhost:3001`
    - **Via VPN / private network (`HOST_BIND=0.0.0.0`):** `http://10.0.0.10:3001`
-2. Create your initial admin account (email and password) on the first-run setup screen.
+2. Create your initial admin account (email and password) on the first-run setup screen. The setup key can be found when running `docker compose logs -f freellmapi`
 3. Navigate to the **Keys** page and add your free-tier API keys (e.g., Google AI Studio, Groq, Cerebras, Mistral). FreeLLMAPI will validate each key and display its health status.
 4. Configure your preferred **Fallback Chain** and routing strategy.
 5. Copy your unified bearer token (`freellmapi-...`) from the top of the **Keys** page.
