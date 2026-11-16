@@ -4,6 +4,40 @@
 
 A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose on an **Oracle Cloud Infrastructure (OCI) Always Free** compute instance (`10.0.0.10`). Supports both `arm64` (Ampere A1) and `amd64` (Micro) shapes.
 
+## 🚀 Why FreeLLMAPI?
+
+**FreeLLMAPI** is an open-source (MIT), local-first AI gateway that aggregates free-tier APIs from dozens of LLM providers (up to **87 providers** and **1,300+ free model endpoints**, totaling over **10 billion free tokens per month**) behind a single, unified OpenAI-compatible `/v1` endpoint.
+
+Instead of constantly hitting rate limits on a single provider or paying expensive monthly API bills for personal projects and coding agents, FreeLLMAPI pools your free API keys together and handles routing and failover automatically.
+
+---
+
+### ✨ Key Benefits
+
+* **Massive Combined Free Quota:** Turns small, isolated free tiers (from providers like Google, Groq, Cerebras, Mistral, and more) into a massive, continuous inference pool.
+* **Single OpenAI-Compatible Endpoint:** Connect any tool—such as Open WebUI, Claude Code, Cline, Aider, or custom scripts—using one local `/v1` URL and a single unified API key.
+* **Smart Routing & Silent Failover:** Automatically routes requests based on reliability, speed, and intelligence scores. If one provider hits a rate limit (`429`) or goes down, FreeLLMAPI seamlessly fails over to the next available provider without interrupting your workflow.
+* **Local-First & Encrypted Privacy:** Runs directly on your own machine (or a lightweight Raspberry Pi / VPS) with a tiny ~40 MB memory footprint. Your upstream API keys are stored locally in an encrypted SQLite database, and requests go straight from your machine to the providers—no middleman proxy reading your prompts.
+* **Self-Updating Model Catalog:** Automatically pulls a signed catalog of active free endpoints, rate limits, and context windows so you don't have to manually track API changes.
+* **Custom Local & Remote Endpoints:** Easily plug in local models (Ollama, LM Studio, llama.cpp, vLLM) alongside cloud free tiers.
+
+---
+
+### ⚖️ Why FreeLLMAPI is Better Than OmniRoute
+
+While both **FreeLLMAPI** and **OmniRoute** are local, OpenAI-compatible routing gateways, FreeLLMAPI takes a cleaner, safer, and more lightweight approach for aggregating free LLM access:
+
+| Feature | FreeLLMAPI | OmniRoute |
+| :--- | :--- | :--- |
+| **Core Philosophy** | Purpose-built specifically for **official free-tier API keys**. | Heavy multi-purpose proxy mixing API keys, paid subscriptions, and OAuth/session scraping. |
+| **Account Safety & ToS** | **Safer API-key pooling:** Uses standard developer API keys rather than hijacking or scraping consumer web/CLI subscription logins. | Relies heavily on wrapping consumer subscription logins (e.g., Claude Pro, Codex) with header obfuscation/identity rotation, risking account bans. |
+| **Resource Footprint** | **Ultra-lightweight (~40 MB RAM):** Runs cleanly on any Node 20+ environment, Docker container, or Raspberry Pi. | **Heavyweight architecture:** Bundles a full Next.js dashboard, MCP servers, A2A protocols, and embedded sub-processes. |
+| **Setup & Maintenance** | **Zero-maintenance catalog:** Pulls a curated, signed catalog of free endpoints and rate limits automatically. | Requires heavy manual configuration of custom combos, 13+ balancing strategies, and per-model circuit breakers. |
+| **Security at Rest** | Encrypts all stored provider keys inside a local SQLite database out of the box. | Primarily focused on complex multi-tier routing policies and local/cloud state sync. |
+
+> **TL;DR:** Choose **FreeLLMAPI** if you want a lightweight, fast, and clean gateway that maximizes **10B+ free API tokens/month** with zero bloat and automatic failover. OmniRoute is overly complex if you aren't trying to juggle multiple paid consumer subscriptions or run an enterprise-style routing stack.
+
+
 > **Security Note:** FreeLLMAPI is single-user by design and protected only by your dashboard login and unified bearer token. Avoid exposing port `3001` directly to the public internet. Access the instance via SSH port forwarding, a private VPN (such as WireGuard or Tailscale), or a reverse proxy with TLS and authentication.
 
 ---
@@ -17,6 +51,7 @@ A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose on 
 - [Step 4: Deploy FreeLLMAPI with Docker Compose](#step-4-deploy-freellmapi-with-docker-compose)
 - [Step 5: Initial Setup & Adding Provider Keys](#step-5-initial-setup--adding-provider-keys)
 - [Step 6: Test the OpenAI-Compatible Endpoint](#step-6-test-the-openai-compatible-endpoint)
+- [Step 7: Setup Open WebUI (FrontEnd chat) to use the FreeLLMAPI Gateway](#step-7-setup-open-webui-frontend-chat-to-use-the-freellmapi-gateway)
 - [Maintenance & Operations](#maintenance--operations)
 - [Video Walkthrough](#video-walkthrough)
 
@@ -152,7 +187,7 @@ docker compose logs -f freellmapi
    - **Via SSH tunnel:** `http://localhost:3001`
    - **Via VPN / private network (`HOST_BIND=0.0.0.0`):** `http://10.0.0.10:3001`
 2. Create your initial admin account (email and password) on the first-run setup screen. The setup key can be found when running `docker compose logs -f freellmapi`
-3. Navigate to the **Keys** page and add your free-tier API keys (e.g., Google AI Studio, Groq, Cerebras, Mistral). FreeLLMAPI will validate each key and display its health status.
+3. Navigate to the **Chat models** page and add your free-tier Provider API keys (e.g., Google AI Studio, Groq, Cerebras, Mistral). FreeLLMAPI will validate each key and display its health status.
 4. Configure your preferred **Fallback Chain** and routing strategy.
 5. Copy your unified bearer token (`freellmapi-...`) from the top of the **Keys** page.
 
@@ -173,6 +208,16 @@ curl http://10.0.0.10:3001/v1/chat/completions \
 ```
 
 *(Use `http://localhost:3001/v1/chat/completions` if testing locally on the instance or over an SSH tunnel.)*
+
+---
+
+## Step 7: Setup Open WebUI (FrontEnd chat) to use the FreeLLMAPI Gateway
+
+1. Open your browser and navigate to `http://<your-server-ip>:3000`.
+2. Go to **Admin Panel** -> **Settings** -> **Connections**.
+3. Add a connection and ensure the OpenAI API Base URL is set to `http://<your-server-ip>:3001/v1`.
+4. Copy your unified FreeLLMAPI bearer token `freellmapi-...` from the FreeLLMAPI Keys page: **Keys** -> **Unified API key**
+5. Paste this key in Open WebUI, then save. Your models will now appear in the chat interface!
 
 ---
 
