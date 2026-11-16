@@ -53,7 +53,6 @@ While both **FreeLLMAPI** and **OmniRoute** are local, OpenAI-compatible routing
 - [Step 6: Test the OpenAI-Compatible Endpoint](#step-6-test-the-openai-compatible-endpoint)
 - [Step 7: Setup Open WebUI (FrontEnd chat) to use the FreeLLMAPI Gateway](#step-7-setup-open-webui-frontend-chat-to-use-the-freellmapi-gateway)
 - [Maintenance & Operations](#maintenance--operations)
-- [Video Walkthrough](#video-walkthrough)
 
 ---
 
@@ -253,7 +252,3 @@ docker compose cp freellmapi:/app/server/data/freellmapi.db ./freellmapi.db.back
 3. Enter the printed code in the web UI to set a new password.
 
 ---
-
-## Video Walkthrough
-
-For a visual walkthrough of the dashboard setup, provider key configuration, and connecting coding agents to FreeLLMAPI, check out [7.4B Free AI Tokens for Claude Code (FreeLLMAPI Setup Guide)](https://www.youtube.com/watch?v=0CdXUnnvvBA).
