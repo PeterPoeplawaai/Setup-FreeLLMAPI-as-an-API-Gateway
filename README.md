@@ -2,7 +2,7 @@
 
 ![FreeLLMAPI Banner](FreeLLMAPI_plus_Open_WebUI.png)
 
-A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose on an **Oracle Cloud Infrastructure (OCI) Always Free** compute instance. Supports both `arm64` (Ampere A1) and `amd64` (Micro) shapes.
+A complete step-by-step guide to deploying **FreeLLMAPI** via Docker Compose, including firewall hardening, SSH/VPN access, and backup routines. This all runs on a Oracle Cloud Free Tier instance, but you can use any other.
 
 ## 🚀 Why FreeLLMAPI?
 
