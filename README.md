@@ -58,7 +58,7 @@ While both **FreeLLMAPI** and **OmniRoute** are local, OpenAI-compatible routing
 
 ## Prerequisites
 
-- An active **OCI Always Free** compute instance (e.g., Ubuntu 24.04 LTS).
+- Any Linux server (e.g. Ubuntu 24.04 LTS) with Docker and Docker Compose installed.
 - SSH access to the instance (e.g., private IP `10.0.0.10` over VPN/VCN, or via its assigned public IP).
 - At least one free-tier API key from a supported upstream provider (e.g., Google AI Studio, Groq, Cerebras, Mistral, OpenRouter).
 
