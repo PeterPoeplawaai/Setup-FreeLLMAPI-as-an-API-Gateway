@@ -1,4 +1,4 @@
-# Deploying FreeLLMAPI on Oracle Cloud Infrastructure (OCI) Free Tier
+# FreeLLMAPI & Open WebUI Setup Guide
 
 ![FreeLLMAPI Banner](FreeLLMAPI_plus_Open_WebUI.png)
 
