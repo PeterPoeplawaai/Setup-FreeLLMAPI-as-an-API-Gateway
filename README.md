@@ -206,8 +206,6 @@ curl http://10.0.0.10:3001/v1/chat/completions \
   }'
 ```
 
-*(Use `http://localhost:3001/v1/chat/completions` if testing locally on the instance or over an SSH tunnel.)*
-
 ---
 
 ## Step 7: Setup Open WebUI (FrontEnd chat) to use the FreeLLMAPI Gateway
