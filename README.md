@@ -142,7 +142,7 @@ Create a dedicated directory for FreeLLMAPI:
 mkdir -p ~/freellmapi && cd ~/freellmapi
 ```
 
-Generate a persistent 64-character hex `ENCRYPTION_KEY` (used for AES-256-GCM encryption of your upstream API keys at rest) and create the `.env` file:
+Generate a persistent 64-character hex `ENCRYPTION_KEY` (used for AES-256-GCM encryption of your upstream API keys at rest):
 
 ```bash
 openssl rand -hex 32
@@ -193,7 +193,6 @@ volumes:
   open-webui-data:
 ```
 
-> **Note:** If you chose **Option B** in Step 3 to reach the dashboard directly at `http://10.0.0.10:3001` over a private network, update `HOST_BIND=0.0.0.0` in your `.env` file.
 
 Start the container in detached mode:
 
