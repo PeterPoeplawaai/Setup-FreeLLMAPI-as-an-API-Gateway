@@ -148,17 +148,44 @@ Generate a persistent 64-character hex `ENCRYPTION_KEY` (used for AES-256-GCM en
 ```bash
 openssl rand -hex 32
 ```
-> **Note:** Copy the output to use as the ENCRYPTION_KEY value in underneath .env file.
+> **Note:** Copy the output to use as the ENCRYPTION_KEY value in underneath yaml file.
 
-```bash
-nano .env
-```
+```yaml
+services:
+  freellmapi:
+    image: ghcr.io/tashfeenahmed/freellmapi:latest
+    container_name: freellmapi
+    restart: unless-stopped
+    environment:
+      - PORT=3001
+      # Encrypts your stored provider keys. Back this value up!
+      # To generate your own: openssl rand -hex 32
+      - ENCRYPTION_KEY=<copy output from previous step here>
+    ports:
+      # Local access only. Use "3001:3001" to expose on LAN/VPN (trusted networks only).
+      - "0.0.0.0:3001:3001"
+    volumes:
+      - freellmapi-data:/app/server/data
 
-```bash
-ENCRYPTION_KEY=<paste your unique key from above>
-PORT=3001
-# Use 127.0.0.1 for SSH tunnel / reverse proxy, or 0.0.0.0 for private VPN/VCN access
-HOST_BIND=127.0.0.1
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    environment:
+      # Pre-fills the connection URL. The API key is added afterwards in the
+      # Open WebUI interface (Admin Panel > Settings > Connections), because
+      # FreeLLMAPI only creates its unified key after it has started.
+      - OPENAI_API_BASE_URL=http://freellmapi:3001/v1
+    volumes:
+      - open-webui-data:/app/backend/data
+    depends_on:
+      - freellmapi
+
+volumes:
+  freellmapi-data:
+  open-webui-data:
 ```
 
 > **Note:** If you chose **Option B** in Step 3 to reach the dashboard directly at `http://10.0.0.10:3001` over a private network, update `HOST_BIND=0.0.0.0` in your `.env` file.
