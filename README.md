@@ -136,7 +136,7 @@ sudo netfilter-persistent save
 
 ## Step 4: Deploy FreeLLMAPI with Docker Compose
 
-Create a dedicated directory for FreeLLMAPI and download the official `docker-compose.yml`:
+Create a dedicated directory for FreeLLMAPI:
 
 ```bash
 mkdir -p ~/freellmapi && cd ~/freellmapi
