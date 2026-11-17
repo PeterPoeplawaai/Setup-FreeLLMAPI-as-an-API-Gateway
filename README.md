@@ -267,23 +267,23 @@ Your encrypted database is stored in the `freellmapi-data` Docker volume (`/app/
 The `ENCRYPTION_KEY` is set in your `docker-compose.yml`, so back that file up too. Run these commands from the folder that contains it:
 
 ```bash
-mkdir -p backup
-cp docker-compose.yml backup/docker-compose.yml.backup
-docker compose cp freellmapi:/app/server/data ./backup/freellmapi-data
+cd ~/freellmapi
+mkdir -p ~/backup
+cp docker-compose.yml ~/backup/docker-compose.yml.backup
 ```
 
 This copies the whole data folder, including the SQLite database and any extra files SQLite keeps next to it. To avoid copying a half-written database, stop the container first and start it again afterwards:
 
 ```bash
 docker compose stop freellmapi
-docker compose cp freellmapi:/app/server/data ./backup/freellmapi-data
+docker compose cp freellmapi:/app/server/data ~/backup/freellmapi-data
 docker compose start freellmapi
 ```
 
 Optionally, also back up your Open WebUI chats and settings:
 
 ```bash
-docker compose cp open-webui:/app/backend/data ./backup/open-webui-data
+docker compose cp open-webui:/app/backend/data ~/backup/open-webui-data
 ```
 
 > **Keep the backup private.** `docker-compose.yml` contains your encryption key, so store the backup somewhere safe and never commit it to a public GitHub repository.
