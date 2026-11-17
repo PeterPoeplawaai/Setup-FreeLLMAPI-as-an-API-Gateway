@@ -66,7 +66,7 @@ While both **FreeLLMAPI** and **OmniRoute** are local, OpenAI-compatible routing
 
 ## Step 1: Connect and Update the OS
 
-SSH into your OCI instance and update the system packages:
+SSH into your OCI instance (or any instance you're using), update the system packages and install the necessary ones:
 
 ```bash
 ssh ubuntu@10.0.0.10
@@ -127,7 +127,7 @@ If you are connecting directly to `10.0.0.10` over a private network (such as Wi
 2. **OS Firewall (`iptables`):** OCI Ubuntu images block non-SSH ports by default. Allow port `3001` for your trusted subnet and persist the rule:
 
 ```bash
-sudo iptables -I INPUT 6 -m state --state NEW -p tcp -s 10.0.0.0/8 --dport 3001 -j ACCEPT
+sudo iptables -I INPUT 2 -m state --state NEW -p tcp -s 10.0.0.0/8 --dport 3001 -j ACCEPT
 sudo apt install -y iptables-persistent
 sudo netfilter-persistent save
 ```
@@ -193,7 +193,6 @@ volumes:
   open-webui-data:
 ```
 
-
 Start the container in detached mode:
 
 ```bash
@@ -215,7 +214,7 @@ docker compose logs -f freellmapi
 
 1. Open the FreeLLMAPI web dashboard in your browser:
    - **Via SSH tunnel:** `http://localhost:3001`
-   - **Via VPN / private network (`HOST_BIND=0.0.0.0`):** `http://10.0.0.10:3001`
+   - **Via VPN / private network (`HOST_BIND=0.0.0.0`):** `http://<your-private-server-ip>:3001`
 2. Create your initial admin account (email and password) on the first-run setup screen. The setup key can be found when running `docker compose logs -f freellmapi`
 3. Navigate to the **Chat models** page and add your free-tier Provider API keys (e.g., Google AI Studio, Groq, Cerebras, Mistral). FreeLLMAPI will validate each key and display its health status.
 4. Configure your preferred **Fallback Chain** and routing strategy.
@@ -241,11 +240,11 @@ curl http://10.0.0.10:3001/v1/chat/completions \
 
 ## Step 7: Setup Open WebUI (FrontEnd chat) to use the FreeLLMAPI Gateway
 
-1. Open your browser and navigate to `http://<your-server-ip>:3000`.
+1. Open your browser and navigate to `http://<your-private-server-ip>:3000`.
 2. Go to **Admin Panel** -> **Settings** -> **Connections**.
-3. Add a connection and ensure the OpenAI API Base URL is set to `http://<your-server-ip>:3001/v1`.
-4. Copy your unified FreeLLMAPI bearer token `freellmapi-...` from the FreeLLMAPI Keys page: **Keys** -> **Unified API key**
-5. Paste this key in Open WebUI, then save. Your models will now appear in the chat interface!
+3. Check the existing connection (created by the yaml file in step 4) and ensure the OpenAI API Base URL is set to `http://<your-private-server-ip>:3001/v1`.
+4. On the FreeLLMAPI web page, copy your unified FreeLLMAPI bearer token `freellmapi-...` from the FreeLLMAPI Keys page: **Keys** -> **Unified API key**
+5. Paste this key in Open WebUI by editing the existing connection, then save. Your FreeLLMAPI models should now show up in the model dropdown.
 
 ---
 
@@ -253,7 +252,7 @@ curl http://10.0.0.10:3001/v1/chat/completions \
 
 ### Updating FreeLLMAPI
 
-Pull the latest multi-arch image from GitHub Container Registry and recreate the container (your `.env` file and `freellmapi-data` SQLite volume remain intact):
+Pull the latest multi-arch image from GitHub Container Registry and recreate the container (your `freellmapi-data` SQLite volume remain intact):
 
 ```bash
 cd ~/freellmapi
@@ -263,13 +262,31 @@ docker compose up -d
 
 ### Backing Up Your Configuration
 
-Your encrypted database is stored in the `freellmapi-data` Docker volume (`/app/server/data/freellmapi.db`). Back up both your `.env` file and the SQLite database—without the original `ENCRYPTION_KEY`, stored provider keys cannot be decrypted:
+Your encrypted database is stored in the `freellmapi-data` Docker volume (`/app/server/data`). Without the original `ENCRYPTION_KEY`, the stored provider keys cannot be decrypted, so back up both the key and the data.
+
+The `ENCRYPTION_KEY` is set in your `docker-compose.yml`, so back that file up too. Run these commands from the folder that contains it:
 
 ```bash
-cd ~/freellmapi
-cp .env .env.backup
-docker compose cp freellmapi:/app/server/data/freellmapi.db ./freellmapi.db.backup
+mkdir -p backup
+cp docker-compose.yml backup/docker-compose.yml.backup
+docker compose cp freellmapi:/app/server/data ./backup/freellmapi-data
 ```
+
+This copies the whole data folder, including the SQLite database and any extra files SQLite keeps next to it. To avoid copying a half-written database, stop the container first and start it again afterwards:
+
+```bash
+docker compose stop freellmapi
+docker compose cp freellmapi:/app/server/data ./backup/freellmapi-data
+docker compose start freellmapi
+```
+
+Optionally, also back up your Open WebUI chats and settings:
+
+```bash
+docker compose cp open-webui:/app/backend/data ./backup/open-webui-data
+```
+
+> **Keep the backup private.** `docker-compose.yml` contains your encryption key, so store the backup somewhere safe and never commit it to a public GitHub repository.
 
 ### Resetting a Forgotten Dashboard Password
 
