@@ -140,7 +140,6 @@ Create a dedicated directory for FreeLLMAPI and download the official `docker-co
 
 ```bash
 mkdir -p ~/freellmapi && cd ~/freellmapi
-curl -fsSL https://raw.githubusercontent.com/tashfeenahmed/freellmapi/main/docker-compose.yml -o docker-compose.yml
 ```
 
 Generate a persistent 64-character hex `ENCRYPTION_KEY` (used for AES-256-GCM encryption of your upstream API keys at rest) and create the `.env` file:
@@ -149,6 +148,12 @@ Generate a persistent 64-character hex `ENCRYPTION_KEY` (used for AES-256-GCM en
 openssl rand -hex 32
 ```
 > **Note:** Copy the output to use as the ENCRYPTION_KEY value in underneath yaml file.
+
+```bash
+nano docker-compose.yml
+```
+
+Paste underneath yaml code. Don't forget to replace the ENCRYPTION_KEY!
 
 ```yaml
 services:
