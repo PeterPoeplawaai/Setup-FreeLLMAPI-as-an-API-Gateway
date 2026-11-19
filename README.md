@@ -241,10 +241,11 @@ curl http://10.0.0.10:3001/v1/chat/completions \
 ## Step 7: Setup Open WebUI (FrontEnd chat) to use the FreeLLMAPI Gateway
 
 1. Open your browser and navigate to `http://<your-private-server-ip>:3000`.
-2. Go to **Admin Panel** -> **Settings** -> **Connections**.
-3. Check the existing connection (created by the yaml file in step 4) and ensure the OpenAI API Base URL is set to `http://<your-private-server-ip>:3001/v1`.
-4. On the FreeLLMAPI web page, copy your unified FreeLLMAPI bearer token `freellmapi-...` from the FreeLLMAPI Keys page: **Keys** -> **Unified API key**
-5. Paste this key in Open WebUI by editing the existing connection, then save. Your FreeLLMAPI models should now show up in the model dropdown.
+2. Click on **Get Started** and create your admin account. 
+3. Go to **Admin Panel** -> **Settings** -> **Connections**.
+4. Check the existing connection (created by the yaml file in step 4) and ensure the OpenAI API Base URL is set to `http://freellmapi:3001/v1`.
+5. On the FreeLLMAPI web page, copy your unified FreeLLMAPI bearer token `freellmapi-...` from the FreeLLMAPI Keys page: **Keys** -> **Unified API key**
+6. Paste this key in Open WebUI by editing the existing connection, then save. Your FreeLLMAPI models should now show up in the model dropdown.
 
 ---
 
