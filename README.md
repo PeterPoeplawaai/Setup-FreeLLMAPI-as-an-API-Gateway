@@ -218,7 +218,7 @@ docker compose logs -f freellmapi
 2. Create your initial admin account (email and password) on the first-run setup screen. The setup key can be found when running `docker compose logs -f freellmapi`
 3. Navigate to the **Chat models** page and add your free-tier Provider API keys (e.g., Google AI Studio, Groq, Cerebras, Mistral). FreeLLMAPI will validate each key and display its health status.
 4. Configure your preferred **Fallback Chain** and routing strategy.
-5. Copy your unified bearer token (`freellmapi-...`) from the top of the **Keys** page.
+5. Copy your unified bearer token (`freellmapi-...`) from the **Keys** -> **Unified API Key** page.
 
 ---
 
