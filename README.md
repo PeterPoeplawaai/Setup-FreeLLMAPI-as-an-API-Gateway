@@ -245,16 +245,16 @@ On its first boot, SearXNG automatically generates `~/freellmapi/searxng/config/
 
 1. Open the generated configuration file:
    ```bash
-   nano ~/freellmapi/searxng/config/settings.yml
+   sudo nano ~/freellmapi/searxng/config/settings.yml
    ```
-2. Find the `search:` section and add `json` under `formats`:
+2. Add a `search:` section after the `server:` section and add `html` `json` under `formats`:
    ```yaml
    search:
      formats:
        - html
        - json
    ```
-3. *(Optional)* Verify that `server.secret_key` has a unique random value (SearXNG normally generates one on first run).
+3. *(Optional)* Verify that `secret_key` has a unique random value (SearXNG normally generates one on first run).
 4. Restart SearXNG to apply the change:
    ```bash
    cd ~/freellmapi && docker compose restart searxng
