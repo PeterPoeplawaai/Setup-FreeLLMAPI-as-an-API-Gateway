@@ -194,12 +194,6 @@ services:
       - ./searxng/cache:/var/cache/searxng:rw
     environment:
       - SEARXNG_BASE_URL=http://10.0.0.10:8080/
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
