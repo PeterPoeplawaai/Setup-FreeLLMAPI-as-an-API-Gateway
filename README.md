@@ -205,10 +205,11 @@ services:
       # Pre-fills the FreeLLMAPI connection URL. The unified API key is added
       # afterwards in Open WebUI (Admin Panel > Settings > Connections).
       - OPENAI_API_BASE_URL=http://freellmapi:3001/v1
-      # Pre-configures SearXNG internal container DNS for Web Search
+      # Pre-configures SearXNG internal container DNS for Web Search (do NOT use ip address here, it will break the search engine!!!)
+      # Only use http://10.0.0.10:8080/search from a VPN client if you want to use SearXNG separately!!!)
       - ENABLE_RAG_WEB_SEARCH=True
       - RAG_WEB_SEARCH_ENGINE=searxng
-      - SEARXNG_QUERY_URL=http://10.0.0.10:8080/search
+      - SEARXNG_QUERY_URL=http://searxng:8080/search
     volumes:
       - open-webui-data:/app/backend/data
     depends_on:
