@@ -270,8 +270,9 @@ On its first boot, SearXNG automatically generates `~/freellmapi/searxng/config/
 ## Step 6: Initial Setup & Adding Provider Keys in FreeLLMAPI
 
 1. Open the FreeLLMAPI web dashboard in your browser:
-   - **Via SSH tunnel:** `http://localhost:3001`
    - **Via VPN / private network:** `http://10.0.0.10:3001`
+   - **Via SSH tunnel:** `http://localhost:3001`
+   
 2. Create your initial admin account (email and password) on the first-run setup screen. The one-time setup key can be found in the logs:
    ```bash
    cd ~/freellmapi && docker compose logs freellmapi
