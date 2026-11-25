@@ -117,7 +117,7 @@ Oracle Cloud instances enforce both a **VCN Security List** (cloud-level) and lo
 
 If you are connecting directly to your private VPN IP (`10.0.0.10`) over WireGuard, AmneziaWG, Tailscale, or an internal VCN subnet:
 
-**OS Firewall (`iptables`):** OCI Ubuntu images block non-SSH ports by default. Allow ports `3000`, `3001`, and `8080` for your trusted subnet and persist the rules:
+**OS Firewall (`iptables`):** OCI Ubuntu images block non-SSH ports by default. Allow ports `3000` (Open WebUI), `3001` (FreeLLMAPI), and `8080` (SearXNG) for your trusted subnet and persist the rules:
 
 ```bash
 sudo iptables -I INPUT 2 -m state --state NEW -p tcp -s 10.0.0.0/8 --dport 3000 -j ACCEPT
@@ -135,7 +135,7 @@ Forward the relevant ports securely over SSH from your local workstation when ne
 ssh -L 3000:127.0.0.1:3000 -L 3001:127.0.0.1:3001 -L 8080:127.0.0.1:8080 ubuntu@10.0.0.10
 ```
 
-You can then open `http://localhost:3000` (Open WebUI) or `http://localhost:3001` (FreeLLMAPI) in your local browser.
+You can then open `http://localhost:3000` (Open WebUI), `http://localhost:3001` (FreeLLMAPI) and `http://localhost:8080` (SearXNG) in your local browser.
 
 ---
 
