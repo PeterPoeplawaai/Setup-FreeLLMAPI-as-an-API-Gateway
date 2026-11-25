@@ -1,6 +1,6 @@
 # FreeLLMAPI, Open WebUI & SearXNG Setup Guide
 
-![FreeLLMAPI Banner](FreeLLMAPI_plus_Open_WebUI.png)
+![FreeLLMAPI Banner](FreeLLMAPI_plus_Open_WebUI_banner.png)
 
 A complete step-by-step guide to deploying **FreeLLMAPI**, **Open WebUI**, and **SearXNG** together via a single Docker Compose stack, including firewall hardening, SSH/VPN access, mobile app connection, and backup routines. This all runs on an Oracle Cloud Free Tier instance, though you can use any Linux host.
 
