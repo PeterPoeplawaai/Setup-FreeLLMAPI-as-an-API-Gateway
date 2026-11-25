@@ -173,10 +173,11 @@ services:
       - PORT=3001
       # Encrypts your stored provider keys. Back this value up!
       # To generate your own: openssl rand -hex 32
-      - ENCRYPTION_KEY=<copy output from previous step here>
+      - ENCRYPTION_KEY=   ######## <copy output from previous step here!!!>
     ports:
-      # Exposes FreeLLMAPI on your server interfaces (restrict via firewall/VPN).
-      - "0.0.0.0:3001:3001"
+      # Bound strictly to your private VPN IP so FreeLLMAPI is never public.
+      # Change 10.0.0.10 to 127.0.0.1 if you only use SSH tunneling.
+      - "10.0.0.10:3001:3001"
     volumes:
       - freellmapi-data:/app/server/data
 
