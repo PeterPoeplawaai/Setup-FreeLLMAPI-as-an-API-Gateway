@@ -2,7 +2,8 @@
 
 ![FreeLLMAPI Banner](FreeLLMAPI_plus_Open_WebUI_banner.png)
 
-A complete step-by-step guide to deploying **FreeLLMAPI**, **Open WebUI**, and **SearXNG** together via a single Docker Compose stack, including firewall hardening, SSH/VPN access, mobile app connection, and backup routines. This all runs on an Oracle Cloud Free Tier instance, though you can use any Linux host.
+A complete step-by-step guide to deploying **FreeLLMAPI**, **Open WebUI**, and **SearXNG** together via a single Docker Compose stack, including firewall hardening, SSH/VPN access, mobile app connection, and backup routines. 
+This all runs on an Oracle Cloud Free Tier instance, though you can use any Linux host.
 
 ## 🚀 Why FreeLLMAPI?
 
@@ -110,24 +111,13 @@ docker compose version
 
 ## Step 3: Configure Firewall & Network Access
 
-Oracle Cloud instances enforce both a **VCN Security List** (cloud-level) and local **`iptables`** rules (OS-level). Choose the access option that matches your network setup.
+Oracle Cloud instances enforce both a **VCN Security List** (cloud-level) and local **`iptables`** rules (OS-level). To make all accessible to only your connected VPN clients, you have two options:
 
-### Option A: Recommended — Access via SSH Tunnel or Private VPN (No Public Ports Opened)
-
-Keep ports `3000` (Open WebUI), `3001` (FreeLLMAPI), and `8080` (SearXNG) closed to the public internet and forward them securely over SSH from your local workstation when needed:
-
-```bash
-ssh -L 3000:127.0.0.1:3000 -L 3001:127.0.0.1:3001 -L 8080:127.0.0.1:8080 ubuntu@10.0.0.10
-```
-
-You can then open `http://localhost:3000` (Open WebUI) or `http://localhost:3001` (FreeLLMAPI) in your local browser.
-
-### Option B: Internal VCN / VPN Subnet Access (`10.0.0.10`)
+### Option A: VPN Subnet Access with `iptables` (`10.0.0.10`)
 
 If you are connecting directly to your private VPN IP (`10.0.0.10`) over WireGuard, AmneziaWG, Tailscale, or an internal VCN subnet:
 
-1. **OCI Console:** Ensure your VCN **Security List** (or Network Security Group) allows TCP ingress on ports `3000`, `3001`, and optionally `8080` only from your trusted CIDR (e.g., `10.0.0.0/16` or your VPN subnet).
-2. **OS Firewall (`iptables`):** OCI Ubuntu images block non-SSH ports by default. Allow ports `3000`, `3001`, and `8080` for your trusted subnet and persist the rules:
+**OS Firewall (`iptables`):** OCI Ubuntu images block non-SSH ports by default. Allow ports `3000`, `3001`, and `8080` for your trusted subnet and persist the rules:
 
 ```bash
 sudo iptables -I INPUT 2 -m state --state NEW -p tcp -s 10.0.0.0/8 --dport 3000 -j ACCEPT
@@ -136,6 +126,16 @@ sudo iptables -I INPUT 2 -m state --state NEW -p tcp -s 10.0.0.0/8 --dport 8080 
 sudo apt install -y iptables-persistent
 sudo netfilter-persistent save
 ```
+
+### Option B: Access via SSH Tunnel
+
+Forward the relevant ports securely over SSH from your local workstation when needed:
+
+```bash
+ssh -L 3000:127.0.0.1:3000 -L 3001:127.0.0.1:3001 -L 8080:127.0.0.1:8080 ubuntu@10.0.0.10
+```
+
+You can then open `http://localhost:3000` (Open WebUI) or `http://localhost:3001` (FreeLLMAPI) in your local browser.
 
 ---
 
