@@ -208,7 +208,7 @@ services:
       # Pre-configures SearXNG internal container DNS for Web Search
       - ENABLE_RAG_WEB_SEARCH=True
       - RAG_WEB_SEARCH_ENGINE=searxng
-      - SEARXNG_QUERY_URL=http://searxng:8080/search
+      - SEARXNG_QUERY_URL=http://10.0.0.10:8080/search
     volumes:
       - open-webui-data:/app/backend/data
     depends_on:
