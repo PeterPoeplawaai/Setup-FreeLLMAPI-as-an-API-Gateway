@@ -277,7 +277,7 @@ On its first boot, SearXNG automatically generates `~/freellmapi/searxng/config/
    ```bash
    cd ~/freellmapi && docker compose logs freellmapi
    ```
-3. Navigate to the **Chat models** page and add your free-tier Provider API keys (e.g., Google AI Studio, Groq, Cerebras, Mistral). FreeLLMAPI will validate each key and display its health status.
+3. Navigate to the **Keys** page and add your free-tier Provider API keys with the **Add key** button (e.g., Google AI Studio, Groq, Cerebras, Mistral). FreeLLMAPI will validate each key and display its health status.
 4. Configure your preferred **Fallback Chain** and routing strategy.
 5. Copy your unified bearer token (`freellmapi-...`) from **Keys** -> **Unified API Key**.
 
